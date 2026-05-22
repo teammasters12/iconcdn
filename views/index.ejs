@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Icon CDN</title>
+
+    <style>
+
+        body{
+            font-family:Arial;
+            background:#111;
+            color:white;
+            padding:30px;
+        }
+
+        h1{
+            text-align:center;
+        }
+
+        .upload-box{
+            background:#222;
+            padding:20px;
+            border-radius:10px;
+            width:300px;
+            margin:auto;
+        }
+
+        button{
+            padding:10px 20px;
+            border:none;
+            background:#00bfff;
+            color:white;
+            border-radius:5px;
+            cursor:pointer;
+        }
+
+        .gallery{
+            margin-top:50px;
+            display:grid;
+            grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+            gap:20px;
+        }
+
+        .card{
+            background:#222;
+            padding:20px;
+            border-radius:10px;
+            text-align:center;
+        }
+
+        img{
+            width:80px;
+            height:80px;
+            object-fit:contain;
+            background:white;
+            padding:10px;
+            border-radius:10px;
+        }
+
+        input{
+            width:100%;
+            padding:10px;
+            margin-top:10px;
+            border:none;
+            border-radius:5px;
+        }
+
+    </style>
+</head>
+<body>
+
+<h1>My Icon CDN</h1>
+
+<div class="upload-box">
+
+    <form action="/upload" method="POST" enctype="multipart/form-data">
+
+        <input type="file" name="icon" required>
+
+        <br><br>
+
+        <button>Upload Icon</button>
+
+    </form>
+
+</div>
+
+<div class="gallery">
+
+    <% icons.forEach(icon => { %>
+
+        <div class="card">
+
+            <img src="<%= icon.file %>">
+
+            <h3><%= icon.name %></h3>
+
+            <input
+                type="text"
+                value="http://localhost:3000<%= icon.file %>"
+                readonly
+            >
+
+            <br><br>
+
+            <input
+                type="text"
+                value='<img src="http://localhost:3000<%= icon.file %>">'
+                readonly
+            >
+
+            <br><br>
+
+            <input
+                type="text"
+                value='<i class="di-<%= icon.name.toLowerCase() %>"></i>'
+                readonly
+            >
+
+        </div>
+
+    <% }) %>
+
+</div>
+
+</body>
+</html>
