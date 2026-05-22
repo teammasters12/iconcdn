@@ -48,42 +48,32 @@ app.post("/upload", upload.single("icon"), (req, res) => {
 
 app.get("/icons.css", (req, res) => {
 
-    db.all("SELECT * FROM icons", [], (err, icons) => {
+    let css = "";
 
-        if(err){
-            console.log(err);
-            return res.send("Database Error");
-        }
+    icons.forEach(icon => {
 
-        console.log(icons);
-
-        let css = "";
-
-        icons.forEach(icon => {
-
-            const className = icon.name.toLowerCase();
-
-            css += `
-.di-${className}{
+        css += `
+.di-${icon.name.toLowerCase()}{
     display:inline-block;
     width:24px;
     height:24px;
-    background:url('${icon.file}');
-    background-size:contain;
-    background-repeat:no-repeat;
-    background-position:center;
+
+    background-color: currentColor;
+
+    mask: url('${icon.file}') no-repeat center;
+    -webkit-mask: url('${icon.file}') no-repeat center;
+
+    mask-size: contain;
+    -webkit-mask-size: contain;
 }
 `;
 
-        });
-
-        res.setHeader("Content-Type", "text/css");
-        res.send(css);
-
     });
 
-});
+    res.setHeader("Content-Type", "text/css");
+    res.send(css);
 
+});
 const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, () => {
